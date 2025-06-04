@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance App - User Story Map</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .personas {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .personas h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .persona-cards {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .persona-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 300px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .story-map {
+            padding: 30px;
+            overflow-x: auto;
+        }
+        
+        .activities-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            min-width: 1200px;
+        }
+        
+        .activity-column {
+            flex: 1;
+            min-width: 180px;
+        }
+        
+        .activity-header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .activity-description {
+            background: #ecf0f1;
+            padding: 10px;
+            font-size: 0.9em;
+            color: #2c3e50;
+            border-radius: 0 0 10px 10px;
+            margin-bottom: 20px;
+        }
+        
+        .story-card {
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .story-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .must-have {
+            border-left-color: #e74c3c;
+            background: linear-gradient(135deg, #fff 0%, #ffebee 100%);
+        }
+        
+        .should-have {
+            border-left-color: #f39c12;
+            background: linear-gradient(135deg, #fff 0%, #fff8e1 100%);
+        }
+        
+        .could-have {
+            border-left-color: #27ae60;
+            background: linear-gradient(135deg, #fff 0%, #e8f5e8 100%);
+        }
+        
+        .story-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .story-description {
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .priority-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+        
+        .phases {
+            background: #f8f9fa;
+            padding: 30px;
+            margin-top: 30px;
+        }
+        
+        .phases h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .phase-timeline {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+        }
+        
+        .phase-card {
+            min-width: 280px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .phase-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .phase-features {
+            list-style: none;
+        }
+        
+        .phase-features li {
+            padding: 5px 0;
+            color: #555;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .phase-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .activities-row {
+                flex-direction: column;
+                min-width: auto;
+            }
+            
+            .activity-column {
+                min-width: auto;
+            }
+            
+            .phase-timeline {
+                flex-direction: column;
+            }
+            
+            .phase-card {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Personal Finance App</h1>
+            <p>User Story Map - Beginner Budgeting with Gamified Group Progress</p>
+        </div>
+        
+        <div class="personas">
+            <h3>Target Users</h3>
+            <div class="persona-cards">
+                <div class="persona-card">
+                    <strong>👩‍🎓 Sarah (Primary)</strong><br>
+                    22, recent graduate, never budgeted before, wants to learn with friends for motivation and accountability
+                </div>
+                <div class="persona-card">
+                    <strong>👨‍💼 Mike (Secondary)</strong><br>
+                    25, basic budgeting knowledge, competitive nature, enjoys group challenges and social features
+                </div>
+            </div>
+        </div>
+        
+        <div class="story-map">
+            <div class="priority-legend">
+                <div class="legend-item">
+                    <div class="legend-color must-have" style="background-color: #e74c3c;"></div>
+                    <span><strong>Must Have</strong> (MVP)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color should-have" style="background-color: #f39c12;"></div>
+                    <span><strong>Should Have</strong> (Phase 2)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color could-have" style="background-color: #27ae60;"></div>
+                    <span><strong>Could Have</strong> (Future)</span>
+                </div>
+            </div>
+            
+            <div class="activities-row">
+                <div class="activity-column">
+                    <div class="activity-header">Getting Started</div>
+                    <div class="activity-description">Easy onboarding for finance beginners</div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Quick Account Setup</div>
+                        <div class="story-description">Create account with minimal info to get started quickly</div>
+                    </div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Financial Assessment</div>
+                        <div class="story-description">Take quick quiz so app knows skill level and can personalize</div>
+                    </div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Bank Connection</div>
+                        <div class="story-description">Securely connect bank account to avoid manual transaction entry</div>
+                    </div>
+                    
+                    <div class="story-card should-have">
+                        <div class="story-title">Welcome Tutorial</div>
+                        <div class="story-description">Interactive walkthrough of app features and benefits</div>
+                    </div>
+                    
+                    <div class="story-card could-have">
+                        <div class="story-title">Data Import</div>
+                        <div class="story-description">Import existing financial data from other apps/spreadsheets</div>
+                    </div>
+                </div>
+                
+                <div class="activity-column">
+                    <div class="activity-header">Learning Basics</div>
+                    <div class="activity-description">Understand budgeting fundamentals through guided experience</div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Interactive Lessons</div>
+                        <div class="story-description">Learn budgeting basics through engaging, beginner-friendly content</div>
+                    </div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Budget Examples</div>
+                        <div class="story-description">See real examples of successful budgets for inspiration</div>
+                    </div>
+                    
+                    <div class="story-card should-have">
+                        <div class="story-title">Knowledge Quizzes</div>
+                        <div class="story-description">Test understanding with mini-quizzes after each lesson</div>
+                    </div>
+                    
+                    <div class="story-card should-have">
+                        <div class="story-title">Achievement Badges</div>
+                        <div class="story-description">Earn badges for completing lessons and milestones</div>
+                    </div>
+                    
+                    <div class="story-card could-have">
+                        <div class="story-title">Video Tutorials</div>
+                        <div class="story-description">Watch video explanations for different learning styles</div>
+                    </div>
+                </div>
+                
+                <div class="activity-column">
+                    <div class="activity-header">Creating Budget</div>
+                    <div class="activity-description">Build first personal budget with help and templates</div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Budget Templates</div>
+                        <div class="story-description">Start with pre-made templates instead of blank slate</div>
+                    </div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Smart Categorization</div>
+                        <div class="story-description">Automatically organize income and expenses into logical categories</div>
+                    </div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Guided Suggestions</div>
+                        <div class="story-description">Get AI-powered spending amount suggestions for each category</div>
+                    </div>
+                    
+                    <div class="story-card should-have">
+                        <div class="story-title">Custom Categories</div>
+                        <div class="story-description">Customize budget categories to fit personal lifestyle</div>
+                    </div>
+                    
+                    <div class="story-card could-have">
+                        <div class="story-title">Multiple Scenarios</div>
+                        <div class="story-description">Create different budget versions for various life situations</div>
+                    </div>
+                </div>
+                
+                <div class="activity-column">
+                    <div class="activity-header">Tracking Progress</div>
+                    <div class="activity-description">Monitor spending and stay on track with visual feedback</div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Real-time Dashboard</div>
+                        <div class="story-description">See spending vs budget progress with instant updates</div>
+                    </div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Visual Charts</div>
+                        <div class="story-description">Beautiful graphs and charts make progress easy to understand</div>
+                    </div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Smart Alerts</div>
+                        <div class="story-description">Get notifications when approaching spending limits</div>
+                    </div>
+                    
+                    <div class="story-card should-have">
+                        <div class="story-title">Success Streaks</div>
+                        <div class="story-description">Track consecutive days/weeks of staying on budget</div>
+                    </div>
+                    
+                    <div class="story-card could-have">
+                        <div class="story-title">Detailed Analytics</div>
+                        <div class="story-description">Deep insights into spending patterns and optimization opportunities</div>
+                    </div>
+                </div>
+                
+                <div class="activity-column">
+                    <div class="activity-header">Group Participation</div>
+                    <div class="activity-description">Join friends/groups for motivation and gamification</div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Create/Join Groups</div>
+                        <div class="story-description">Form budgeting groups with friends for mutual motivation</div>
+                    </div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Group Progress</div>
+                        <div class="story-description">See anonymized team progress and celebrate together</div>
+                    </div>
+                    
+                    <div class="story-card must-have">
+                        <div class="story-title">Leaderboards</div>
+                        <div class="story-description">Friendly competition with budget adherence rankings</div>
+                    </div>
+                    
+                    <div class="story-card should-have">
+                        <div class="story-title">Team Challenges</div>
+                        <div class="story-description">Participate in group challenges with shared goals</div>
+                    </div>
+                    
+                    <div class="story-card could-have">
+                        <div class="story-title">Social Features</div>
+                        <div class="story-description">Chat with group members and share budgeting tips</div>
+                    </div>
+                </div>
+                
+                <div class="activity-column">
+                    <div class="activity-header">Advancing Skills</div>
+                    <div class="activity-description">Learn more complex financial concepts and tools</div>
+                    
+                    <div class="story-card should-have">
+                        <div class="story-title">Investment Basics</div>
+                        <div class="story-description">Learn fundamental investing concepts for growing wealth</div>
+                    </div>
+                    
+                    <div class="story-card should-have">
+                        <div class="story-title">Debt Strategies</div>
+                        <div class="story-description">Optimize debt payoff with proven strategies and calculators</div>
+                    </div>
+                    
+                    <div class="story-card could-have">
+                        <div class="story-title">Goal Planning</div>
+                        <div class="story-description">Set and track multiple financial goals simultaneously</div>
+                    </div>
+                    
+                    <div class="story-card could-have">
+                        <div class="story-title">Expert Connect</div>
+                        <div class="story-description">Connect with certified financial advisors for personalized guidance</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="phases">
+            <h2>Development Roadmap</h2>
+            <div class="phase-timeline">
+                <div class="phase-card">
+                    <div class="phase-title">Phase 1 - Core MVP</div>
+                    <div style="color: #666; margin-bottom: 15px;">Months 1-3</div>
+                    <ul class="phase-features">
+                        <li>User registration & onboarding</li>
+                        <li>Basic budget creation with templates</li>
+                        <li>Expense tracking & categorization</li>
+                        <li>Simple progress visualization</li>
+                        <li>Basic group creation & joining</li>
+                        <li>Real-time spending dashboard</li>
+                    </ul>
+                </div>
+                
+                <div class="phase-card">
+                    <div class="phase-title">Phase 2 - Learning & Social</div>
+                    <div style="color: #666; margin-bottom: 15px;">Months 4-5</div>
+                    <ul class="phase-features">
+                        <li>Interactive financial lessons</li>
+                        <li>Achievement system & badges</li>
+                        <li>Enhanced group features</li>
+                        <li>Leaderboards & competition</li>
+                        <li>Improved data visualization</li>
+                        <li>Mobile responsiveness</li>
+                    </ul>
+                </div>
+                
+                <div class="phase-card">
+                    <div class="phase-title">Phase 3 - Gamification</div>
+                    <div style="color: #666; margin-bottom: 15px;">Months 6-8</div>
+                    <ul class="phase-features">
+                        <li>Team challenges & competitions</li>
+                        <li>Advanced analytics & reporting</li>
+                        <li>Goal setting & tracking</li>
+                        <li>Social features (chat, sharing)</li>
+                        <li>AI-powered insights</li>
+                        <li>Custom group challenges</li>
+                    </ul>
+                </div>
+                
+                <div class="phase-card">
+                    <div class="phase-title">Phase 4 - Advanced Tools</div>
+                    <div style="color: #666; margin-bottom: 15px;">Months 9+</div>
+                    <ul class="phase-features">
+                        <li>Investment education & tools</li>
+                        <li>Debt optimization strategies</li>
+                        <li>Multiple financial institution support</li>
+                        <li>Expert advisor connections</li>
+                        <li>Advanced goal planning</li>
+                        <li>Performance optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
