@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Budget Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            width: 33.33%;
+            transition: width 0.5s ease;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .step.active {
+            background: #27ae60;
+            transform: scale(1.2);
+        }
+
+        .step.completed {
+            background: #2ecc71;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .intro-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .intro-section h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .intro-section p {
+            color: #666;
+            font-size: 1.1em;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .template-card.selected {
+            border-color: #27ae60;
+            background: linear-gradient(135deg, #fff 0%, #f0fff4 100%);
+        }
+
+        .template-card.selected::before {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        }
+
+        .template-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .template-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            margin-right: 20px;
+        }
+
+        .rule-50-30-20 .template-icon {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .zero-based .template-icon {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .envelope .template-icon {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .simple .template-icon {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .template-title {
+            color: #2c3e50;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .template-subtitle {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .template-description {
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .template-breakdown {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .breakdown-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .breakdown-label {
+            color: #555;
+        }
+
+        .breakdown-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .template-pros {
+            margin-top: 15px;
+        }
+
+        .template-pros h4 {
+            color: #27ae60;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .template-pros ul {
+            list-style: none;
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .template-pros li {
+            margin-bottom: 4px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .template-pros li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .difficulty-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .beginner {
+            background: #d5f4e6;
+            color: #27ae60;
+        }
+
+        .intermediate {
+            background: #fff3d4;
+            color: #f39c12;
+        }
+
+        .advanced {
+            background: #fadbd8;
+            color: #e74c3c;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background: #d5dbdb;
+        }
+
+        .help-tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .help-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3498db;
+            color: white;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: help;
+        }
+
+        @media (max-width: 768px) {
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="progress-bar"></div>
+            <h1>Choose Your Budget Template</h1>
+            <p>Let's find the perfect budgeting method for your lifestyle</p>
+            <div class="step-indicator">
+                <div class="step active">1</div>
+                <div class="step">2</div>
+                <div class="step">3</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="intro-section">
+                <h2>Pick Your Starting Point 🚀</h2>
+                <p>Don't worry - you can always change or customize your budget later! These templates are designed to give you a solid foundation based on proven budgeting methods.</p>
+            </div>
+
+            <div class="templates-grid">
+                <!-- 50/30/20 Rule -->
+                <div class="template-card rule-50-30-20" onclick="selectTemplate(this, '50-30-20')">
+                    <div class="difficulty-badge beginner">Beginner</div>
+                    <div class="template-header">
+                        <div class="template-icon">📊</div>
+                        <div>
+                            <div class="template-title">50/30/20 Rule</div>
+                            <div class="template-subtitle">Most Popular for Beginners</div>
+                        </div>
+                    </div>
+                    <div class="template-description">
+                        The classic budgeting method that splits your after-tax income into three simple categories. Perfect for those who want structure without complexity.
+                    </div>
+                    <div class="template-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Needs (Housing, Food, Bills)</span>
+                            <span class="breakdown-value">50%</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Wants (Entertainment, Dining Out)</span>
+                            <span class="breakdown-value">30%</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Savings & Debt Payment</span>
+                            <span class="breakdown-value">20%</span>
+                        </div>
+                    </div>
+                    <div class="template-pros">
+                        <h4>Perfect if you:</h4>
+                        <ul>
+                            <li>Want a simple, proven system</li>
+                            <li>Have a stable income</li>
+                            <li>Are new to budgeting</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Zero-Based Budget -->
+                <div class="template-card zero-based" onclick="selectTemplate(this, 'zero-based')">
+                    <div class="difficulty-badge intermediate">Intermediate</div>
+                    <div class="template-header">
+                        <div class="template-icon">🎯</div>
+                        <div>
+                            <div class="template-title">Zero-Based Budget</div>
+                            <div class="template-subtitle">Every Dollar Has a Job</div>
+                        </div>
+                    </div>
+                    <div class="template-description">
+                        Assign every dollar of income to a specific category until you reach zero. Great for those who want maximum control and accountability.
+                    </div>
+                    <div class="template-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Income - All Expenses</span>
+                            <span class="breakdown-value">= $0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Categories: Needs, Wants, Savings</span>
+                            <span class="breakdown-value">Custom %</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Leftover Money</span>
+                            <span class="breakdown-value">$0</span>
+                        </div>
+                    </div>
+                    <div class="template-pros">
+                        <h4>Perfect if you:</h4>
+                        <ul>
+                            <li>Want complete spending awareness</li>
+                            <li>Have irregular income</li>
+                            <li>Like detailed planning</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Envelope Method -->
+                <div class="template-card envelope" onclick="selectTemplate(this, 'envelope')">
+                    <div class="difficulty-badge beginner">Beginner</div>
+                    <div class="template-header">
+                        <div class="template-icon">💰</div>
+                        <div>
+                            <div class="template-title">Envelope Method</div>
+                            <div class="template-subtitle">Digital Cash System</div>
+                        </div>
+                    </div>
+                    <div class="template-description">
+                        Allocate specific amounts to spending categories like putting cash in envelopes. When the "envelope" is empty, you're done spending in that category.
+                    </div>
+                    <div class="template-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Fixed Expenses</span>
+                            <span class="breakdown-value">~60%</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Variable Spending "Envelopes"</span>
+                            <span class="breakdown-value">~30%</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Savings</span>
+                            <span class="breakdown-value">~10%</span>
+                        </div>
+                    </div>
+                    <div class="template-pros">
+                        <h4>Perfect if you:</h4>
+                        <ul>
+                            <li>Struggle with overspending</li>
+                            <li>Prefer visual money management</li>
+                            <li>Want clear spending limits</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Simple Budget -->
+                <div class="template-card simple" onclick="selectTemplate(this, 'simple')">
+                    <div class="difficulty-badge beginner">Beginner</div>
+                    <div class="template-header">
+                        <div class="template-icon">✨</div>
+                        <div>
+                            <div class="template-title">Simple Budget</div>
+                            <div class="template-subtitle">Keep It Super Simple</div>
+                        </div>
+                    </div>
+                    <div class="template-description">
+                        Track just the essentials: income, fixed expenses, and one savings goal. Perfect for absolute beginners who want to start small.
+                    </div>
+                    <div class="template-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Fixed Expenses</span>
+                            <span class="breakdown-value">Track</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">One Savings Goal</span>
+                            <span class="breakdown-value">Track</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Everything Else</span>
+                            <span class="breakdown-value">Flexible</span>
+                        </div>
+                    </div>
+                    <div class="template-pros">
+                        <h4>Perfect if you:</h4>
+                        <ul>
+                            <li>Are overwhelmed by detailed budgets</li>
+                            <li>Want to build the habit first</li>
+                            <li>Prefer minimal tracking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="goBack()">
+                    ← Back to Assessment
+                </button>
+                <button class="btn btn-primary" id="continueBtn" onclick="continueToNext()" disabled>
+                    Continue to Setup →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedTemplate = null;
+
+        function selectTemplate(card, templateType) {
+            // Remove previous selection
+            document.querySelectorAll('.template-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            
+            // Add selection to clicked card
+            card.classList.add('selected');
+            selectedTemplate = templateType;
+            
+            // Enable continue button
+            document.getElementById('continueBtn').disabled = false;
+            
+            // Add a little celebration animation
+            card.style.transform = 'translateY(-5px) scale(1.02)';
+            setTimeout(() => {
+                card.style.transform = 'translateY(-5px)';
+            }, 200);
+        }
+
+        function continueToNext() {
+            if (selectedTemplate) {
+                // Update progress bar
+                document.querySelector('.progress-bar').style.width = '66.66%';
+                
+                // Update step indicator
+                document.querySelectorAll('.step')[0].classList.add('completed');
+                document.querySelectorAll('.step')[0].classList.remove('active');
+                document.querySelectorAll('.step')[1].classList.add('active');
+                
+                alert(`Great choice! You selected the ${selectedTemplate} template. Next we'll help you set up your categories and amounts.`);
+            }
+        }
+
+        function goBack() {
+            alert('Going back to financial assessment...');
+        }
+
+        // Add some interactive hover effects
+        document.querySelectorAll('.template-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('selected')) {
+                    this.style.transform = 'translateY(-5px)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('selected')) {
+                    this.style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
